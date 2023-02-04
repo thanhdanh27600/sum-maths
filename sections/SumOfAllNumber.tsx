@@ -101,7 +101,7 @@ export const SumOfAllNumber = forwardRef(
 								id="checkbox-k-dif"
 								type="checkbox"
 								value=""
-								className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer"
+								className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 cursor-pointer"
 								{...register("distinct")}
 							/>
 							<label
@@ -112,7 +112,7 @@ export const SumOfAllNumber = forwardRef(
 							</label>
 						</div>
 					</div>
-					<Button type="submit" text="Submit" className="mt-2" />
+					<Button type="submit" text="Kết quả" className="mt-2" />
 				</form>
 
 				{/* RESULT */}
@@ -120,12 +120,12 @@ export const SumOfAllNumber = forwardRef(
 					<>
 						<textarea
 							rows={10}
-							className="mt-2 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							className="mt-2 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
 							disabled
 							value={result.total.join("\n")}
 						/>
-						<div className="text-xl font-bold mt-2">
-							Total: {result.total.reduce((prev, cur) => prev + cur, 0)}
+						<div className="text-xl font-bold mt-4">
+							Tổng : {result.total.reduce((prev, cur) => prev + cur, 0)}
 						</div>
 					</>
 				)}
