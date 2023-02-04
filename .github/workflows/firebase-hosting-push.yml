@@ -1,0 +1,23 @@
+name: Deploy to Firebase Hosting on Push
+'on':
+  push:
+    branches:
+      - master
+jobs:
+  build-and-deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Install Dependency
+        run : npm install
+      - name: CI
+        run: npm run ci && npm run build
+      - name: CD
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SUM_NUMBERS }}'
+          projectId: sum-numbers
+          channelId: live
