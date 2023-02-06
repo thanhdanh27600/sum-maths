@@ -1,4 +1,8 @@
-import {NumberInput, NumberInputEvenOdd} from "../types/numberSumsInput";
+import {
+	NumberInput,
+	NumberInputEvenOdd,
+	NumberInputRange,
+} from "../types/numberSumsInput";
 
 export const isSetdistinct = (set: number[]) => {
 	return new Set(set).size < set.length;
@@ -10,6 +14,8 @@ function getPermutations(
 	options: {
 		distinct: boolean;
 		isEven?: boolean;
+		from?: number;
+		to?: number;
 	}
 ) {
 	function p(t: number[], i: number) {
@@ -33,6 +39,10 @@ function getPermutations(
 			return;
 		}
 		for (let j = 0; j < array.length; j++) {
+			if (!!options.from && array[j] < t[t.length - 1]) {
+				console.log("het");
+				continue;
+			}
 			if (options.distinct && t.includes(array[j])) {
 				continue;
 			}
@@ -45,9 +55,10 @@ function getPermutations(
 	return {permutation, total};
 }
 
-export function calculateSumOfAllNumber<
-	T extends NumberInput | NumberInputEvenOdd
->(data: T) {
+export function calculateSumOfAllNumber<T extends Partial<NumberInputRange>>(
+	data: T
+) {
+	console.log("data", data);
 	let arr = data.set
 		.toString()
 		.split(",")
@@ -58,7 +69,23 @@ export function calculateSumOfAllNumber<
 	const k = +data.k;
 	const allSumPermutation = getPermutations(arr, k, {
 		distinct: data.distinct,
-		isEven: (data as NumberInputEvenOdd).isEven,
+		isEven: data.isEven,
+		from: data.from,
+		to: data.to,
 	});
-	return allSumPermutation;
+	let permutationRange = {};
+	if (!!data.from) {
+		allSumPermutation.total.forEach((p) => {
+			const eachP = getPermutations(
+				p
+					.toString()
+					.split("")
+					.map((p) => parseInt(p)),
+				k,
+				{distinct: data.distinct}
+			);
+			permutationRange[p] = eachP;
+		});
+	}
+	return {...allSumPermutation, permutationRange};
 }

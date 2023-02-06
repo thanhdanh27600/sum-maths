@@ -2,6 +2,7 @@ import {useCallback, useRef} from "react";
 import {useReactToPrint} from "react-to-print";
 import {SumOfAllNumber} from "../../sections/SumOfAllNumber";
 import {SumOfAllNumberEvenOdd} from "../../sections/SumOfAllNumberEvenOdd";
+import { SumOfAllNumberRange } from "../../sections/SumOfAllNumberRange";
 import DownloadIcon from "../icons/DownloadIcon";
 import {Footer} from "./Footer";
 import {Header} from "./Header";
@@ -46,6 +47,7 @@ const Layout = () => {
 				<div ref={ref} className="flex gap-4 flex-col">
 					<SumOfAllNumber />
 					<SumOfAllNumberEvenOdd />
+					<SumOfAllNumberRange />
 				</div>
 				<Footer />
 			</div>

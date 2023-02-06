@@ -4,9 +4,11 @@ export type NumberInput = {
 	k: number;
 };
 
-export type NumberInputEvenOdd = {
-	set: number;
-	distinct: boolean;
-	k: number;
-	isEven: boolean
+export type NumberInputEvenOdd = NumberInput & {
+	isEven: boolean;
+};
+
+export type NumberInputRange = NumberInputEvenOdd & {
+	from: number;
+	to: number;
 };
