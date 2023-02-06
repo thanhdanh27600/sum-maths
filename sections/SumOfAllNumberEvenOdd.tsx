@@ -71,7 +71,7 @@ export const SumOfAllNumberEvenOdd = forwardRef(
 						<p className="text-sm text-gray-500 mt-1">{`Đang có: ${
 							curSet?.length || 0
 						} phần tử, trong đó có ${
-							curSet.filter((a) =>
+							curSet?.filter((a) =>
 								curIsEven ? parseInt(a) % 2 === 0 : parseInt(a) % 2 === 1
 							).length || 0
 						} phần tử ${curIsEven ? "chẵn" : "lẻ"}`}</p>{" "}
