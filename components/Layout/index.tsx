@@ -1,6 +1,7 @@
 import {useCallback, useRef} from "react";
 import {useReactToPrint} from "react-to-print";
 import {SumOfAllNumber} from "../../sections/SumOfAllNumber";
+import {SumOfAllNumberEvenOdd} from "../../sections/SumOfAllNumberEvenOdd";
 import DownloadIcon from "../icons/DownloadIcon";
 import {Footer} from "./Footer";
 import {Header} from "./Header";
@@ -42,7 +43,10 @@ const Layout = () => {
 			</button>
 			<div className="px-5 lg:px-32 py-8">
 				<Header />
-				<SumOfAllNumber ref={ref} />
+				<div ref={ref} className="flex gap-4 flex-col">
+					<SumOfAllNumber />
+					<SumOfAllNumberEvenOdd />
+				</div>
 				<Footer />
 			</div>
 		</div>

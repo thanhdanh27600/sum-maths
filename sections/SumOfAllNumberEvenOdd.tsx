@@ -6,20 +6,20 @@ import {
 	calculateSumOfAllNumber,
 	isSetdistinct,
 } from "../logics/calculateSumOfAllNumber";
-import {NumberInput} from "../types/numberSumsInput";
+import {NumberInputEvenOdd} from "../types/numberSumsInput";
 
-// DANG 1
+// DANG 2
 
-export const SumOfAllNumber = forwardRef(
+export const SumOfAllNumberEvenOdd = forwardRef(
 	(props, ref: LegacyRef<HTMLElement>) => {
 		const {
 			register,
 			handleSubmit,
 			formState: {errors},
 			watch,
-		} = useForm<NumberInput>();
+		} = useForm<NumberInputEvenOdd>();
 
-		const onSubmit: SubmitHandler<NumberInput> = (data) => {
+		const onSubmit: SubmitHandler<NumberInputEvenOdd> = (data) => {
 			const result = calculateSumOfAllNumber(data);
 			setResult(result);
 		};
@@ -29,10 +29,14 @@ export const SumOfAllNumber = forwardRef(
 		const errorSet = errors.set?.message;
 		const errorK = errors.k?.message;
 
+		const curSet = watch("set")?.toString().split(",");
+		const curIsEven = !!watch("isEven");
+
 		return (
 			<main ref={ref}>
 				<p className="text-2xl font-bold">
-					Dạng 1: Tổng các số có k chữ số được lập thành từ tập có n chữ số
+					Dạng 2: Tổng các số chẵn/lẽ có k chữ số được lập thành từ tập có n chữ
+					số
 				</p>
 				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
 					<div className="mt-2">
@@ -65,8 +69,12 @@ export const SumOfAllNumber = forwardRef(
 							className={errorSet && "!border-red-500"}
 						/>
 						<p className="text-sm text-gray-500 mt-1">{`Đang có: ${
-							watch("set")?.toString().split(",")?.length || 0
-						} phần tử`}</p>{" "}
+							curSet?.length || 0
+						} phần tử, trong đó có ${
+							curSet.filter((a) =>
+								curIsEven ? parseInt(a) % 2 === 0 : parseInt(a) % 2 === 1
+							).length || 0
+						} phần tử ${curIsEven ? "chẵn" : "lẻ"}`}</p>{" "}
 						<p className="text-red-400">{errorSet}</p>
 					</div>
 
@@ -84,8 +92,7 @@ export const SumOfAllNumber = forwardRef(
 									if (!/^[0-9]*[1-9][0-9]*$/.test(k.toString())) {
 										return "Số không hợp lệ, hãy thử lại";
 									}
-									const maxLength =
-										watch("set").toString().split(",")?.length || 0;
+									const maxLength = curSet?.length || 0;
 									if (parseInt(k.toString()) > maxLength) {
 										return "Số không vượt quá " + maxLength;
 									}
@@ -99,15 +106,38 @@ export const SumOfAllNumber = forwardRef(
 
 					<div className="mt-2">
 						<div className="flex items-center w-fit">
+							<label
+								htmlFor="checkbox-k-dif"
+								className="mr-3 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer "
+							>
+								Lẻ
+							</label>
+							<label className="relative inline-flex items-center cursor-pointer">
+								<input
+									type="checkbox"
+									value=""
+									className="sr-only peer"
+									{...register("isEven")}
+								/>
+								<div className="w-11 h-6 bg-blue-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 " />
+								<span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+									Chẵn
+								</span>
+							</label>
+						</div>
+					</div>
+
+					<div className="mt-2">
+						<div className="flex items-center w-fit">
 							<input
-								id="checkbox-k-dif"
+								id="checkbox-k-dif-2"
 								type="checkbox"
 								value=""
-								className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 cursor-pointer"
+								className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
 								{...register("distinct")}
 							/>
 							<label
-								htmlFor="checkbox-k-dif"
+								htmlFor="checkbox-k-dif-2"
 								className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer "
 							>
 								k chữ số khác nhau
