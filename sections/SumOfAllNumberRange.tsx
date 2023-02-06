@@ -31,11 +31,12 @@ export const SumOfAllNumberRange = forwardRef(
 						(prev: number, next: number) => prev + next,
 						0
 					) as number;
+					console.log("totalEach", totalEach);
 					if (totalEach < data.from || totalEach > data.to) {
 						return "";
 					}
 					_total.push(totalEach);
-					return `Bộ ${ith++} lập từ \{${e[0]
+					return `Bộ ${ith++}. Tập \{${e[0]
 						.toString()
 						.split("")
 						.join(",")}\} có tổng=${totalEach} gồm\n \t${totalEachArr.join(
@@ -63,8 +64,8 @@ export const SumOfAllNumberRange = forwardRef(
 		return (
 			<main ref={ref}>
 				<p className="text-2xl font-bold">
-					Dạng 3: Tổng các số chẵn/lẽ có k chữ số được lập thành từ tập có n chữ
-					số thuộc khoảng cho trước
+					Dạng 3: Tổng các số có k chữ số được lập thành từ tập có n chữ số
+					thuộc khoảng cho trước
 				</p>
 				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
 					<div className="mt-2">

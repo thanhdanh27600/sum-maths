@@ -40,7 +40,6 @@ function getPermutations(
 		}
 		for (let j = 0; j < array.length; j++) {
 			if (!!options.from && array[j] < t[t.length - 1]) {
-				console.log("het");
 				continue;
 			}
 			if (options.distinct && t.includes(array[j])) {
@@ -87,5 +86,6 @@ export function calculateSumOfAllNumber<T extends Partial<NumberInputRange>>(
 			permutationRange[p] = eachP;
 		});
 	}
+	console.log("permutationRange", permutationRange);
 	return {...allSumPermutation, permutationRange};
 }
