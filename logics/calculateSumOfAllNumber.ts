@@ -71,16 +71,14 @@ const preprocessData = (data: Partial<NumberInputRange>) => {
 export function calculateSumOfAllNumber<T extends Partial<NumberInputRange>>(
 	data: T
 ) {
-	console.log("data", data);
 	const arr = preprocessData(data);
-	console.log("arr", arr);
 	const k = +data.k;
 	let allSumPermutation: ReturnType<typeof getPermutations> = {
 		total: [],
 	};
 
 	allSumPermutation = getPermutations(arr, k, {
-		distinct: data.distinct,
+		distinct: !!data.from ? true : data.distinct,
 		isEven: data.isEven,
 		from: data.from,
 		to: data.to,
@@ -103,7 +101,7 @@ export const calculatePermutationRange = (
 
 	for (let j = k; j <= arr.length; j++) {
 		curSumPermutation = getPermutations(arr, j, {
-			distinct: data.distinct,
+			distinct: true,
 			isEven: data.isEven,
 			from: data.from,
 			to: data.to,
@@ -115,7 +113,6 @@ export const calculatePermutationRange = (
 	}
 	const step = 100;
 	const len = allSumPermutation.total.length;
-	console.log("startFrom", startFrom);
 	allSumPermutation.total
 		.slice(startFrom, Math.min(startFrom + step, len))
 		.map((p, i) => {
