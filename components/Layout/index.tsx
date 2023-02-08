@@ -2,7 +2,7 @@ import {useCallback, useRef} from "react";
 import {useReactToPrint} from "react-to-print";
 import {SumOfAllNumber} from "../../sections/SumOfAllNumber";
 import {SumOfAllNumberEvenOdd} from "../../sections/SumOfAllNumberEvenOdd";
-import { SumOfAllNumberRange } from "../../sections/SumOfAllNumberRange";
+import {SumOfAllNumberRange} from "../../sections/SumOfAllNumberRange";
 import DownloadIcon from "../icons/DownloadIcon";
 import {Footer} from "./Footer";
 import {Header} from "./Header";

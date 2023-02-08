@@ -1,7 +1,8 @@
-import React from "react";
 import {AppProps} from "next/app";
 
 import "../styles/global.css";
+// import i18n (needs to be bundled ;))
+import "../lang/i18n";
 
 function MyApp({Component, pageProps}: AppProps) {
 	return (

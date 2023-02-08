@@ -1,14 +1,26 @@
 import {forwardRef, LegacyRef, useState} from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
+import {useTranslation} from "react-i18next";
 import {Button} from "../components/Button";
 import {Input} from "../components/Input";
 import {
+	calculatePermutationRange,
 	calculateSumOfAllNumber,
 	isSetdistinct,
 } from "../logics/calculateSumOfAllNumber";
 import {NumberInputRange} from "../types/numberSumsInput";
 
-// DANG 2
+// DANG 3
+
+let allSumPermutation: {total: number[]} = {total: []};
+let permutationRange = {start: 0};
+let globalData = {} as NumberInputRange;
+
+const EventEmitter = require("events");
+const eventEmitter = new EventEmitter();
+eventEmitter.on("process", (percent) => {
+	console.log("percent", percent);
+});
 
 export const SumOfAllNumberRange = forwardRef(
 	(props, ref: LegacyRef<HTMLElement>) => {
@@ -19,135 +31,181 @@ export const SumOfAllNumberRange = forwardRef(
 			watch,
 		} = useForm<NumberInputRange>();
 
-		const onSubmit: SubmitHandler<NumberInputRange> = (data) => {
-			data.isEven = undefined;
-			const result = calculateSumOfAllNumber(data);
-			let _total = [];
+		const {t} = useTranslation("common");
+
+		const [result, setResult] = useState(undefined);
+		const [total, setTotal] = useState(0);
+		const [submited, setSubmitted] = useState(0);
+
+		const renderDisplay = () => {
 			let ith = 1;
-			const display = Object.entries(result.permutationRange)
+			let localTotal = [];
+			const display = Object.entries(permutationRange)
 				.map((e, i) => {
 					let totalEachArr = Array.from(new Set((e[1] as any).total));
 					let totalEach = totalEachArr.reduce(
 						(prev: number, next: number) => prev + next,
 						0
 					) as number;
-					console.log("totalEach", totalEach);
-					if (totalEach < data.from || totalEach > data.to) {
+					if (totalEach < globalData.from || totalEach > globalData.to) {
 						return "";
 					}
-					_total.push(totalEach);
-					return `Bộ ${ith++}. Tập \{${e[0]
+					localTotal.push(totalEach);
+					return `${ith++}. ${t("Set")} \{${e[0]
 						.toString()
 						.split("")
-						.join(",")}\} có tổng=${totalEach} gồm\n \t${totalEachArr.join(
-						"\n \t"
-					)}`;
+						.sort()
+						.join(",")}\} ${t("total2", {
+						n1: totalEach,
+						n2: totalEachArr.join("\n \t"),
+					})}`;
 				})
 				.filter((a) => !!a)
 				.join("\n");
-
-			console.log("_total", _total);
 			setResult(display);
-			setTotal(`Có ${_total.length} bộ thỏa mãn`);
+			setTimeout(() => {
+				if (total !== 0 && total === localTotal.length) {
+					allSumPermutation = {total: []};
+					permutationRange = {start: 0};
+					globalData = {} as NumberInputRange;
+					setSubmitted(0);
+				}
+			}, 0);
+			setTotal(localTotal.length);
 		};
 
-		const [result, setResult] = useState(undefined);
-		const [total, setTotal] = useState(undefined);
+		const onSubmit: SubmitHandler<NumberInputRange> = (data) => {
+			globalData = data;
+			globalData.isEven = undefined;
+			allSumPermutation = calculateSumOfAllNumber(globalData);
+
+			const status = calculatePermutationRange(
+				globalData,
+				permutationRange,
+				allSumPermutation,
+				eventEmitter
+			);
+			renderDisplay();
+			if (status === "done") {
+				allSumPermutation = {total: []};
+				permutationRange = {start: 0};
+				globalData = {} as NumberInputRange;
+				setSubmitted(0);
+				return;
+			}
+			setSubmitted(1);
+		};
+
+		const onContinue = () => {
+			const status = calculatePermutationRange(
+				globalData,
+				permutationRange,
+				allSumPermutation,
+				eventEmitter
+			);
+			if (status === "done") {
+				allSumPermutation = {total: []};
+				permutationRange = {start: 0};
+				globalData = {} as NumberInputRange;
+				setSubmitted(0);
+				return;
+			} else {
+				setSubmitted((s) => s + 1);
+				renderDisplay();
+			}
+		};
 
 		const errorSet = errors.set?.message;
 		const errorK = errors.k?.message;
 		const errorFrom = errors.from?.message;
 		const errorTo = errors.to?.message;
 
-		const curSet = watch("set")?.toString().split(",");
-
 		return (
 			<main ref={ref}>
-				<p className="text-2xl font-bold">
-					Dạng 3: Tổng các số có k chữ số được lập thành từ tập có n chữ số
-					thuộc khoảng cho trước
-				</p>
+				<p className="text-2xl font-bold">{t("head3")}</p>
 				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
 					<div className="mt-2">
-						<p className="mb-2 text-lg">
-							{"Tập có n chữ số, viết dạng 1,2,3...n"}
-						</p>
+						<p className="mb-2 text-lg">{t("setInputLabel")}</p>
 						<Input
-							placeholder="Vui lòng nhập tập hợp"
+							placeholder={t("pleaseInputSet")}
 							{...register("set", {
 								validate(set) {
 									if (set.toString().trim().length === 0) {
-										return "Vui lòng nhập tập hợp";
+										return t("pleaseInputSet");
 									}
 									if (!/^[0-9](,[0-9])*$/.test(set.toString())) {
-										return "Tập hợp không hợp lệ, hãy thử lại";
+										return t("invalidSet");
 									}
 									if ((set.toString().split(",")?.length || 0) > 10) {
-										return "Tập hợp không vượt quá 10 phần tử";
+										return t("maxLimitSet", {n: 10});
 									}
 									let parsed = set
 										?.toString()
 										.split(",")
 										.map((a) => parseInt(a));
 									if (!!parsed.length && isSetdistinct(parsed)) {
-										return "Tập hợp có số trùng nhau, hãy thử lại";
+										return t("duplicateElements");
 									}
 									return;
 								},
 							})}
+							disabled={submited > 0}
 							className={errorSet && "!border-red-500"}
 						/>
-						<p className="text-sm text-gray-500 mt-1">{`Đang có: ${
-							curSet?.length || 0
-						} phần tử`}</p>
+						<p className="text-sm text-gray-500 mt-1">
+							{t("currentSetHas", {
+								n: watch("set")?.toString().split(",")?.length || 0,
+							})}
+						</p>{" "}
 						<p className="text-red-400">{errorSet}</p>
 					</div>
 
 					<div className="mt-2">
-						<p className="mb-2 text-lg">
-							{"Nhập k, với k là số các chữ số lấy từ tập trên"}
-						</p>
+						<p className="mb-2 text-lg">{t("inputK")}</p>
 						<Input
-							placeholder="Vui lòng nhập số tự nhiên"
+							placeholder={t("pleaseInputNum")}
 							{...register("k", {
 								validate(k) {
 									if (k.toString().trim().length === 0) {
-										return "Vui lòng nhập số tự nhiên";
+										return t("pleaseInputNum");
 									}
 									if (!/^[0-9]*[1-9][0-9]*$/.test(k.toString())) {
-										return "Số không hợp lệ, hãy thử lại";
+										return t("invalidNum");
 									}
-									const maxLength = curSet?.length || 0;
+									const maxLength =
+										watch("set").toString().split(",")?.length || 0;
 									if (parseInt(k.toString()) > maxLength) {
-										return "Số không vượt quá " + maxLength;
+										return t("maxNum", {n: maxLength});
 									}
 									return;
 								},
 							})}
+							disabled={submited > 0}
 							className={errorK && "!border-red-500"}
 						/>
 						<p className="text-red-400">{errorK}</p>
 					</div>
 
 					<div className="mt-2">
-						<p className="mb-2 text-lg">{"Tổng thuộc khoảng"}</p>
+						<p className="mb-2 text-lg">{t("sumInRange")}</p>
 						<div className="flex justify-between gap-4">
 							<div className="flex flex-col w-full">
 								<div className="flex w-full gap-4 items-center">
-									<p className="">{"Từ"}</p>
+									<p className="">{t("from")}</p>
 									<Input
-										placeholder="Vui lòng nhập số tự nhiên"
+										placeholder={t("pleaseInputNum")}
 										{...register("from", {
 											validate(from) {
 												if (from.toString().trim().length === 0) {
-													return "Vui lòng nhập số tự nhiên";
+													return t("pleaseInputNum");
 												}
 												if (!/^[0-9]*[1-9][0-9]*$/.test(from.toString())) {
-													return "Số không hợp lệ, hãy thử lại";
+													return t("invalidNum");
 												}
 												return;
 											},
 										})}
+										disabled={submited > 0}
 										className={errorFrom && "!border-red-500"}
 									/>
 								</div>
@@ -155,20 +213,21 @@ export const SumOfAllNumberRange = forwardRef(
 							</div>
 							<div className="flex flex-col w-full">
 								<div className="flex w-full gap-4 items-center">
-									<p className="">{"Đến"}</p>
+									<p className="">{t("to")}</p>
 									<Input
-										placeholder="Vui lòng nhập số tự nhiên"
+										placeholder={t("pleaseInputNum")}
 										{...register("to", {
 											validate(to) {
 												if (to.toString().trim().length === 0) {
-													return "Vui lòng nhập số tự nhiên";
+													return t("pleaseInputNum");
 												}
 												if (!/^[0-9]*[1-9][0-9]*$/.test(to.toString())) {
-													return "Số không hợp lệ, hãy thử lại";
+													return t("invalidNum");
 												}
 												return;
 											},
 										})}
+										disabled={submited > 0}
 										className={errorTo && "!border-red-500"}
 									/>
 								</div>
@@ -177,26 +236,6 @@ export const SumOfAllNumberRange = forwardRef(
 						</div>
 					</div>
 
-					{/* <div className="mt-2">
-						<div className="flex items-center w-fit">
-							<label className="relative inline-flex items-center cursor-pointer">
-								<input
-									type="checkbox"
-									value=""
-									className="sr-only peer"
-									{...register("isEven")}
-								/>
-								<span className="mr-3 text-sm font-medium text-gray-900">
-									Lẻ
-								</span>
-								<div className="w-11 h-6 bg-blue-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full after:translate-x-[3.25px] peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all " />
-								<span className="ml-3 text-sm font-medium text-gray-900">
-									Chẵn
-								</span>
-							</label>
-						</div>
-					</div> */}
-
 					<div className="mt-2">
 						<div className="flex items-center w-fit">
 							<input
@@ -204,18 +243,37 @@ export const SumOfAllNumberRange = forwardRef(
 								type="checkbox"
 								value=""
 								className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
+								disabled={submited > 0}
 								{...register("distinct")}
 							/>
 							<label
 								htmlFor="checkbox-k-dif-3"
 								className="ml-2 text-sm font-medium text-gray-900  cursor-pointer "
 							>
-								k chữ số khác nhau
+								{t("kDif")}
 							</label>
 						</div>
 					</div>
-					<Button type="submit" text="Kết quả" className="mt-2" />
+					{submited === 0 && (
+						<Button
+							type="submit"
+							text={!!result ? t("recalculate") : t("result")}
+							className="mt-2"
+						/>
+					)}
 				</form>
+
+				{submited > 0 && (
+					<div>
+						{t("calculating", {n: submited})}
+						<Button
+							type="button"
+							text={t("continue")}
+							className="ml-2"
+							onClick={onContinue}
+						/>
+					</div>
+				)}
 
 				{/* RESULT */}
 				{result && (
@@ -226,7 +284,11 @@ export const SumOfAllNumberRange = forwardRef(
 						value={result}
 					/>
 				)}
-				{total && <div className="text-xl font-bold mt-4">{total}</div>}
+				{total > 0 && (
+					<div className="text-xl font-bold mt-4">
+						{t("hasTotalSet", {n: total})}
+					</div>
+				)}
 			</main>
 		);
 	}

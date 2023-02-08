@@ -1,5 +1,6 @@
 import {forwardRef, LegacyRef, useState} from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
+import {useTranslation} from "react-i18next";
 import {Button} from "../components/Button";
 import {Input} from "../components/Input";
 import {
@@ -19,6 +20,8 @@ export const SumOfAllNumberEvenOdd = forwardRef(
 			watch,
 		} = useForm<NumberInputEvenOdd>();
 
+		const {t} = useTranslation("common");
+
 		const onSubmit: SubmitHandler<NumberInputEvenOdd> = (data) => {
 			const result = calculateSumOfAllNumber(data);
 			setResult(result);
@@ -34,67 +37,63 @@ export const SumOfAllNumberEvenOdd = forwardRef(
 
 		return (
 			<main ref={ref}>
-				<p className="text-2xl font-bold">
-					Dạng 2: Tổng các số chẵn/lẽ có k chữ số được lập thành từ tập có n chữ
-					số
-				</p>
+				<p className="text-2xl font-bold">{t("head2")}</p>
 				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
 					<div className="mt-2">
-						<p className="mb-2 text-lg">
-							{"Tập có n chữ số, viết dạng 1,2,3...n"}
-						</p>
+						<p className="mb-2 text-lg">{t("setInputLabel")}</p>
 						<Input
-							placeholder="Vui lòng nhập tập hợp"
+							placeholder={t("pleaseInputSet")}
 							{...register("set", {
 								validate(set) {
 									if (set.toString().trim().length === 0) {
-										return "Vui lòng nhập tập hợp";
+										return t("pleaseInputSet");
 									}
 									if (!/^[0-9](,[0-9])*$/.test(set.toString())) {
-										return "Tập hợp không hợp lệ, hãy thử lại";
+										return t("invalidSet");
 									}
 									if ((set.toString().split(",")?.length || 0) > 10) {
-										return "Tập hợp không vượt quá 10 phần tử";
+										return t("maxLimitSet", {n: 10});
 									}
 									let parsed = set
 										?.toString()
 										.split(",")
 										.map((a) => parseInt(a));
 									if (!!parsed.length && isSetdistinct(parsed)) {
-										return "Tập hợp có số trùng nhau, hãy thử lại";
+										return t("duplicateElements");
 									}
 									return;
 								},
 							})}
 							className={errorSet && "!border-red-500"}
 						/>
-						<p className="text-sm text-gray-500 mt-1">{`Đang có: ${
-							curSet?.length || 0
-						} phần tử, trong đó có ${
-							curSet?.filter((a) =>
-								curIsEven ? parseInt(a) % 2 === 0 : parseInt(a) % 2 === 1
-							).length || 0
-						} phần tử ${curIsEven ? "chẵn" : "lẻ"}`}</p>{" "}
+						<p className="text-sm text-gray-500 mt-1">
+							{t("currentSetHasOddEven", {
+								n1: curSet?.length || 0,
+								n2:
+									curSet?.filter((a) =>
+										curIsEven ? parseInt(a) % 2 === 0 : parseInt(a) % 2 === 1
+									).length || 0,
+								n: curIsEven ? t("even") : t("odd"),
+							})}
+						</p>
 						<p className="text-red-400">{errorSet}</p>
 					</div>
 
 					<div className="mt-2">
-						<p className="mb-2 text-lg">
-							{"Nhập k, với k là số các chữ số lấy từ tập trên"}
-						</p>
+						<p className="mb-2 text-lg">{t("inputK")}</p>
 						<Input
-							placeholder="Vui lòng nhập số tự nhiên"
+							placeholder={t("pleaseInputNum")}
 							{...register("k", {
 								validate(k) {
 									if (k.toString().trim().length === 0) {
-										return "Vui lòng nhập số tự nhiên";
+										return t("pleaseInputNum");
 									}
 									if (!/^[0-9]*[1-9][0-9]*$/.test(k.toString())) {
-										return "Số không hợp lệ, hãy thử lại";
+										return t("invalidNum");
 									}
 									const maxLength = curSet?.length || 0;
 									if (parseInt(k.toString()) > maxLength) {
-										return "Số không vượt quá " + maxLength;
+										return t("maxNum", {n: maxLength});
 									}
 									return;
 								},
@@ -114,11 +113,11 @@ export const SumOfAllNumberEvenOdd = forwardRef(
 									{...register("isEven")}
 								/>
 								<span className="mr-3 text-sm font-medium text-gray-900">
-									Lẻ
+									{t("Odd")}
 								</span>
 								<div className="w-11 h-6 bg-blue-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full after:translate-x-[3.25px] peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all " />
 								<span className="ml-3 text-sm font-medium text-gray-900">
-									Chẵn
+									{t("Even")}
 								</span>
 							</label>
 						</div>
@@ -137,11 +136,11 @@ export const SumOfAllNumberEvenOdd = forwardRef(
 								htmlFor="checkbox-k-dif-2"
 								className="ml-2 text-sm font-medium text-gray-900  cursor-pointer "
 							>
-								k chữ số khác nhau
+								{t("kDif")}
 							</label>
 						</div>
 					</div>
-					<Button type="submit" text="Kết quả" className="mt-2" />
+					<Button type="submit" text={t("result")} className="mt-2" />
 				</form>
 
 				{/* RESULT */}
@@ -154,7 +153,7 @@ export const SumOfAllNumberEvenOdd = forwardRef(
 							value={result.total.join("\n")}
 						/>
 						<div className="text-xl font-bold mt-4">
-							Tổng : {result.total.reduce((prev, cur) => prev + cur, 0)}
+							{t("total")} : {result.total.reduce((prev, cur) => prev + cur, 0)}
 						</div>
 					</>
 				)}
