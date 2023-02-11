@@ -1,8 +1,8 @@
 {
 	"helloWorld": "Cruel Hell World",
-	"head1": "Topic 1: Tổng các số có k chữ số được lập thành từ tập có n chữ số",
-	"head2": "Topic 2: Tổng các số chẵn/lẽ có k chữ số được lập thành từ tập có n chữ số",
-	"head3": "Topic 3: Tổng các số có k chữ số được lập thành từ tập có n chữ số thuộc khoảng cho trước",
+	"head1": "Topic 1: THE GENERAL FORMULAS FOR CALCULATING THE SUM OF k-DIFFERENT DIGITS NUMBERS, k-DIGITS NUMBERS THAT CAN BE FORMED USING n GIVEN DIGITS",
+	"head2": "Topic 2: THE GENERAL FORMULAS FOR CALCULATING THE SUM OF EVEN NUMBERS  CONSISTING OF k-DIFFERENT DIGITS AND k-DIGITS THAT CAN BE FORMED USING n GIVEN DIGITS",
+	"head3": "Topic 3: FIND THE SUBSETS X’ OF X SUCH THAT THE NUMBERS CONSISTING OF k-DIGITS THAT CAN BE FORMED USING THE DIGITS OF X’ AND HAVE A SUM RANGING FROM m TO M",
 	"setInputLabel": "Set of n elements, input as 1,2,3...n",
 	"pleaseInputSet": "Please input a set",
 	"invalidSet": "Invalid set, please try again",

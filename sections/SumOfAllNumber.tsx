@@ -121,11 +121,11 @@ export const SumOfAllNumber = forwardRef(
 					<>
 						<textarea
 							rows={10}
-							className="mt-2 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+							className="mt-2 block p-2.5 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
 							disabled
 							value={result.total.join("\n")}
 						/>
-						<div className="text-xl font-bold mt-4">
+						<div className="text-xl font-bold mt-4 border-2 border-solid border-red-500 w-fit p-2">
 							{t("total")} : {result.total.reduce((prev, cur) => prev + cur, 0)}
 						</div>
 					</>

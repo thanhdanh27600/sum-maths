@@ -1,8 +1,8 @@
 {
 	"helloWorld": "Xin chào",
-	"head1": "Dạng 1: Tổng các số có k chữ số được lập thành từ tập có n chữ số",
-	"head2": "Dạng 2: Tổng các số chẵn/lẽ có k chữ số được lập thành từ tập có n chữ số",
-	"head3": "Dạng 3: Tổng các số có k chữ số được lập thành từ tập có n chữ số thuộc khoảng cho trước",
+	"head1": "Chủ đề 1: CÔNG THỨC TỔNG QUÁT TÍNH TỔNG CỦA CÁC SỐ GỒM k CHỮ SỐ KHÁC NHAU, k CHỮ SỐ ĐƯỢC LẬP TỪ n CHỮ SỐ",
+	"head2": "Chủ đề 2: CÔNG THỨC TỔNG QUÁT TÍNH TỔNG CÁC SỐ CHẴN - SỐ LẺ CÓ k CHỮ SỐ KHÁC NHAU, k CHỮ SỐ ĐƯỢC LẬP TỪ n CHỮ SỐ",
+	"head3": "Chủ đề 3: TÌM TẬP CON X’ THUỘC X SAO CHO CÁC SỐ CÓ k CHỮ SỐ KHÁC NHAU, k CHỮ SỐ ĐƯỢC LẬP THÀNH TỪ X’ VÀ CÓ TỔNG TỪ m ĐẾN M",
 	"setInputLabel": "Tập có n chữ số, viết dạng 1,2,3...n",
 	"pleaseInputSet": "Vui lòng nhập tập hợp",
 	"invalidSet": "Tập hợp không hợp lệ, hãy thử lại",
@@ -26,7 +26,7 @@
 	"to": "Đến",
 	"Set": "Tập",
 	"total2": "có tổng={{n1}} gồm\n \t{{n2}}",
-	"hasTotalSet": "Có {{n}} bộ thỏa mãn",
+	"hasTotalSet": "Có {{n}} tập thỏa mãn",
 	"calculating": "Đang tính toán... lần thứ {{n}}",
 	"recalculate": "Tính lại",
 	"continue": "Tiếp tục"
