@@ -2,7 +2,7 @@
 	"helloWorld": "Xin chào",
 	"head1": "CHỦ ĐỀ 1: Tổng của các số có k chữ số khác nhau, k chữ số được lập từ n chữ số",
 	"head2": "CHỦ ĐỀ 2: Tổng của các số chẵn – số lẻ có k chữ số khác nhau, k chữ số được lập từ n chữ số",
-	"head3": "CHỦ ĐỀ 3: Tìm tập con X’ của X sao cho có k chữ số khác nhau, k chữ số được lập từ X’ và biết tổng từ m đến m",
+	"head3": "CHỦ ĐỀ 3: Tìm tập con X’ của x sao cho có k chữ số khác nhau, k chữ số được lập từ X’ và biết tổng từ m đến M",
 	"setInputLabel": "Tập có n chữ số, viết dạng 1,2,3...n",
 	"pleaseInputSet": "Vui lòng nhập tập hợp",
 	"invalidSet": "Tập hợp không hợp lệ, hãy thử lại",
