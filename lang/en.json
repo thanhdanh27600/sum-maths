@@ -2,7 +2,7 @@
 	"helloWorld": "Cruel Hell World",
 	"head1": "TOPIC 1: Calculate the sum of k-different digits, k digits that can be formed using n given digits",
 	"head2": "TOPIC 2: Calculate the sum of even numbers, odd numbers consisting of k-different digits, k digits that can be formed using n given digits",
-	"head3": "TOPIC 3: Find the subsets X' of the set X such that the numbers have k different digits, k digits are made up of X' and know the sum ranging from m to M",
+	"head3": "TOPIC 3: Find the subsets X' of the set X such that the numbers have k different digits, k digits are made up of X' and know the sum ranging from m to M. Find probability",
 	"setInputLabel": "Set of n elements, input as 1,2,3...n",
 	"pleaseInputSet": "Please input a set",
 	"invalidSet": "Invalid set, please try again",
