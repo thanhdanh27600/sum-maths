@@ -30,8 +30,8 @@
 	"calculating": "Đang tính toán... lần thứ {{n}}",
 	"recalculate": "Tính lại",
 	"continue": "Tiếp tục",
-	"noSetFound": "Không tìm thấy tập thõa mãn",
+	"noSetFound": "Không tìm thấy tập thỏa mãn",
 	"calcProbs": "Tính xác suất",
 	"stopCalc": "Dừng tính toán",
-	"probs": "Xác suất = {{n}}"
+	"probs": "Xác suất = P(A)=n(A)/n(Ω) = {{n}}"
 }

@@ -33,5 +33,5 @@
 	"noSetFound": "No set is satisfied",
 	"calcProbs": "Calculate probability",
 	"stopCalc": "Stop calculate",
-	"probs": "Probability = {{n}}"
+	"probs": "Probability = P(A)=n(A)/n(Ω) = {{n}}"
 }
