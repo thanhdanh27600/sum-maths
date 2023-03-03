@@ -57,6 +57,7 @@ function getPermutations(
 }
 
 const preprocessData = (data: Partial<NumberInputRange>) => {
+	if (!data.set) return [];
 	let arr = data.set
 		.toString()
 		.split(",")

@@ -321,6 +321,8 @@ export const SumOfAllNumberRange = forwardRef(
 									permutationRange = {start: 0};
 									globalData = {} as NumberInputRange;
 									setSubmitted(0);
+									setResult('')
+									setTotal(0)
 								}, 0);
 							}}
 						/>
