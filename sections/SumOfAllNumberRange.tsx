@@ -4,6 +4,8 @@ import {useTranslation} from "react-i18next";
 import {Button} from "../components/Button";
 import {Input} from "../components/Input";
 import {
+	calculateCombination,
+	calculateCombinationRange,
 	calculatePermutationRange,
 	calculateSumOfAllNumber,
 	isSetdistinct,
@@ -62,7 +64,11 @@ export const SumOfAllNumberRange = forwardRef(
 				})
 				.filter((a) => !!a)
 				.join("\n");
-			setResult(display);
+			if (!display) {
+				setResult(t("noSetFound"));
+			} else {
+				setResult(display);
+			}
 			setTimeout(() => {
 				if (total !== 0 && total === localTotal.length) {
 					allSumPermutation = {total: []};
@@ -254,6 +260,24 @@ export const SumOfAllNumberRange = forwardRef(
 							</label>
 						</div>
 					</div>
+					<div className="mt-2">
+						<div className="flex items-center w-fit">
+							<input
+								id="checkbox-k-dif-4"
+								type="checkbox"
+								value=""
+								className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
+								disabled={submited > 0}
+								{...register("calcProbs")}
+							/>
+							<label
+								htmlFor="checkbox-k-dif-4"
+								className="ml-2 text-sm font-medium text-gray-900  cursor-pointer"
+							>
+								{t("calcProbs")}
+							</label>
+						</div>
+					</div>
 					{submited === 0 && (
 						<Button
 							type="submit"
@@ -284,9 +308,45 @@ export const SumOfAllNumberRange = forwardRef(
 						value={result}
 					/>
 				)}
+
+				{submited > 0 && (
+					<div>
+						<Button
+							type="button"
+							text={t("stopCalc")}
+							className=" bg-red-500 mt-4"
+							onClick={() => {
+								setTimeout(() => {
+									allSumPermutation = {total: []};
+									permutationRange = {start: 0};
+									globalData = {} as NumberInputRange;
+									setSubmitted(0);
+								}, 0);
+							}}
+						/>
+					</div>
+				)}
+
+
 				{total > 0 && (
 					<div className="text-xl font-bold mt-4 border-2 border-solid border-red-500 w-fit p-2">
 						{t("hasTotalSet", {n: total})}
+					</div>
+				)}
+				{total > 0 && watch("calcProbs") && !errorSet && !errorK && (
+					<div className="text-xl font-bold mt-4 border-2 border-solid w-fit p-2">
+						{t("probs", {
+							n: `${total}/${calculateCombinationRange(
+								parseInt(watch("k").toString() || "0"),
+								watch("set").toString().split(",")?.length || 0
+							)} = ${
+								total /
+								calculateCombinationRange(
+									parseInt(watch("k").toString() || "0"),
+									watch("set").toString().split(",")?.length || 0
+								)
+							}`,
+						})}
 					</div>
 				)}
 			</main>

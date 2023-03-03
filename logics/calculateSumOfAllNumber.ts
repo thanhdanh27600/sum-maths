@@ -137,3 +137,32 @@ export const calculatePermutationRange = (
 	console.log("PENDING");
 	return "pending";
 };
+
+export const factorial = (a: number) => {
+	const f = [];
+	function calculate(n: number) {
+		if (n == 0 || n == 1) return 1;
+		if (f[n] > 0) return f[n];
+		return (f[n] = calculate(n - 1) * n);
+	}
+	return calculate(a);
+};
+
+// nCk
+export const calculateCombination = (k: number, n: number) => {
+	if (k < 0 || n < 0 || k > n) {
+		return 0;
+	}
+	const numerator = factorial(n);
+	const denominator = factorial(k) * factorial(n - k);
+	return numerator / denominator;
+};
+
+export const calculateCombinationRange = (k: number, len: number) => {
+	let i = k;
+	let result = 0;
+	for (i; i <= len; i++) {
+		result += calculateCombination(i, len);
+	}
+	return result;
+};

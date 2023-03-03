@@ -29,5 +29,9 @@
 	"hasTotalSet": "Có {{n}} tập thỏa mãn",
 	"calculating": "Đang tính toán... lần thứ {{n}}",
 	"recalculate": "Tính lại",
-	"continue": "Tiếp tục"
+	"continue": "Tiếp tục",
+	"noSetFound": "Không tìm thấy tập thõa mãn",
+	"calcProbs": "Tính xác suất",
+	"stopCalc": "Dừng tính toán",
+	"probs": "Xác suất = {{n}}"
 }

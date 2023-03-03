@@ -11,4 +11,5 @@ export type NumberInputEvenOdd = NumberInput & {
 export type NumberInputRange = NumberInputEvenOdd & {
 	from: number;
 	to: number;
+	calcProbs: boolean;
 };

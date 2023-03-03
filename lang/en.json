@@ -29,5 +29,9 @@
 	"hasTotalSet": "Total {{n}} set(s) satisfied",
 	"calculating": "Processing...{{n}} times",
 	"recalculate": "Recalculate",
-	"continue": "Continue"
+	"continue": "Continue",
+	"noSetFound": "No set is satisfied",
+	"calcProbs": "Calculate probability",
+	"stopCalc": "Stop calculate",
+	"probs": "Probability = {{n}}"
 }
