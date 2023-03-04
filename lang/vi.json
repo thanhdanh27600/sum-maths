@@ -33,5 +33,5 @@
 	"noSetFound": "Không tìm thấy tập thỏa mãn",
 	"calcProbs": "Tính xác suất",
 	"stopCalc": "Dừng tính toán",
-	"probs": "Xác suất = P(A) = n(A)/n(Ω) = {{n}}"
+	"probs": "Xác suất = P(X') = n(X)/n(Ω) = {{n}}"
 }
