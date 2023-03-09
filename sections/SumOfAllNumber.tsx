@@ -1,3 +1,4 @@
+import mixpanel from "mixpanel-browser";
 import {forwardRef, LegacyRef, useState} from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {useTranslation} from "react-i18next";
@@ -8,6 +9,7 @@ import {
 	isSetdistinct,
 } from "../logics/calculateSumOfAllNumber";
 import {NumberInput} from "../types/numberSumsInput";
+import {MIX_PANEL_EVENT} from "../utils/constants";
 
 // DANG 1
 
@@ -23,6 +25,7 @@ export const SumOfAllNumber = forwardRef(
 		const onSubmit: SubmitHandler<NumberInput> = (data) => {
 			const result = calculateSumOfAllNumber(data);
 			setResult(result);
+			mixpanel.track(MIX_PANEL_EVENT.CALCULATE_1, {data});
 		};
 
 		const {t} = useTranslation("common");
@@ -34,7 +37,7 @@ export const SumOfAllNumber = forwardRef(
 
 		return (
 			<main ref={ref}>
-				<p className="text-2xl font-bold">{t("head1")}</p>
+				<p className="text-2xl font-bold text-red-600">{t("head1")}</p>
 				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
 					<div className="mt-2">
 						<p className="mb-2 text-lg">{t("setInputLabel")}</p>
@@ -113,7 +116,7 @@ export const SumOfAllNumber = forwardRef(
 							</label>
 						</div>
 					</div>
-					<Button type="submit" text={t('result')} className="mt-2" />
+					<Button type="submit" text={t("result")} className="mt-2" />
 				</form>
 
 				{/* RESULT */}

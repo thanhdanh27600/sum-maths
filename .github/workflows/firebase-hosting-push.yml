@@ -12,6 +12,10 @@ jobs:
         uses: actions/checkout@v2
       - name: Install Dependency
         run : npm install
+      - name: Decrypt secret
+        run: ./decrypt_secret.sh
+        env:
+          SECRET_PASSPHRASE: ${{ secrets.SECRET_PASSPHRASE }}
       - name: CI
         run: npm run ci && npm run build
       - name: CD

@@ -1,3 +1,4 @@
+import mixpanel from "mixpanel-browser";
 import {forwardRef, LegacyRef, useState} from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {useTranslation} from "react-i18next";
@@ -11,6 +12,7 @@ import {
 	isSetdistinct,
 } from "../logics/calculateSumOfAllNumber";
 import {NumberInputRange} from "../types/numberSumsInput";
+import {MIX_PANEL_EVENT} from "../utils/constants";
 
 // DANG 3
 
@@ -84,6 +86,7 @@ export const SumOfAllNumberRange = forwardRef(
 			globalData = data;
 			globalData.isEven = undefined;
 			allSumPermutation = calculateSumOfAllNumber(globalData);
+			mixpanel.track(MIX_PANEL_EVENT.CALCULATE_3, {data});
 
 			const status = calculatePermutationRange(
 				globalData,
@@ -128,7 +131,7 @@ export const SumOfAllNumberRange = forwardRef(
 
 		return (
 			<main ref={ref}>
-				<p className="text-2xl font-bold">{t("head3")}</p>
+				<p className="text-2xl font-bold text-red-600">{t("head3")}</p>
 				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
 					<div className="mt-2">
 						<p className="mb-2 text-lg">{t("setInputLabel")}</p>
@@ -321,14 +324,13 @@ export const SumOfAllNumberRange = forwardRef(
 									permutationRange = {start: 0};
 									globalData = {} as NumberInputRange;
 									setSubmitted(0);
-									setResult('')
-									setTotal(0)
+									setResult("");
+									setTotal(0);
 								}, 0);
 							}}
 						/>
 					</div>
 				)}
-
 
 				{total > 0 && (
 					<div className="text-xl font-bold mt-4 border-2 border-solid border-red-500 w-fit p-2">
