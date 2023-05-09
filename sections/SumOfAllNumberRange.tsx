@@ -1,18 +1,17 @@
 import mixpanel from "mixpanel-browser";
-import {forwardRef, LegacyRef, useState} from "react";
-import {SubmitHandler, useForm} from "react-hook-form";
-import {useTranslation} from "react-i18next";
-import {Button} from "../components/Button";
-import {Input} from "../components/Input";
+import { forwardRef, LegacyRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { Button } from "../components/Button";
+import { Input } from "../components/Input";
 import {
-	calculateCombination,
 	calculateCombinationRange,
 	calculatePermutationRange,
 	calculateSumOfAllNumber,
-	isSetdistinct,
+	isSetdistinct
 } from "../logics/calculateSumOfAllNumber";
-import {NumberInputRange} from "../types/numberSumsInput";
-import {MIX_PANEL_EVENT} from "../utils/constants";
+import { NumberInputRange } from "../types/numberSumsInput";
+import { MIX_PANEL_EVENT } from "../utils/constants";
 
 // DANG 3
 

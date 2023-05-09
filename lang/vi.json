@@ -15,6 +15,7 @@
 	"maxNum": "Số không vượt quá {{n}}",
 	"kDif": "k chữ số khác nhau",
 	"total": "Tổng",
+	"totalNum": "Có {{n}} số",
 	"result": "Kết quả",
 	"even": "chẵn",
 	"odd": "lẻ",

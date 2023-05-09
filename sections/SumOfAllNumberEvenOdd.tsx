@@ -1,15 +1,15 @@
 import mixpanel from "mixpanel-browser";
-import {forwardRef, LegacyRef, useState} from "react";
-import {SubmitHandler, useForm} from "react-hook-form";
-import {useTranslation} from "react-i18next";
-import {Button} from "../components/Button";
-import {Input} from "../components/Input";
+import { forwardRef, LegacyRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { Button } from "../components/Button";
+import { Input } from "../components/Input";
 import {
 	calculateSumOfAllNumber,
 	isSetdistinct,
 } from "../logics/calculateSumOfAllNumber";
-import {NumberInputEvenOdd} from "../types/numberSumsInput";
-import {MIX_PANEL_EVENT} from "../utils/constants";
+import { NumberInputEvenOdd } from "../types/numberSumsInput";
+import { MIX_PANEL_EVENT } from "../utils/constants";
 
 // DANG 2
 
@@ -155,6 +155,9 @@ export const SumOfAllNumberEvenOdd = forwardRef(
 							disabled
 							value={result.total.join("\n")}
 						/>
+						<div className="mt-2">
+							{t("totalNum", {n: result.total.length})}
+						</div>
 						<div className="text-xl font-bold mt-4  border-2 border-solid border-red-500 w-fit p-2">
 							{t("total")} : {result.total.reduce((prev, cur) => prev + cur, 0)}
 						</div>

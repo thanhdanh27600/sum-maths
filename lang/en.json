@@ -15,6 +15,7 @@
 	"maxNum": "Number cannot exceed {{n}}",
 	"kDif": "k distinct digits",
 	"total": "Total",
+	"totalNum": "{{n}} numbers satisfied",
 	"result": "Result",
 	"even": "even",
 	"odd": "odd",
